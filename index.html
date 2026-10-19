@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b35">
+<title>Послание из моря — капитан Миша Каштан</title>
+<style>
+  :root { color-scheme: dark; --ink:#17304a; --paper:#fff3d8; --pink:#ff9fca; }
+  * { box-sizing: border-box; }
+  html { min-height:100%; }
+  body { margin:0; min-height:100vh; overflow-x:hidden; font-family: Georgia, 'Times New Roman', serif; color:#fff7f0; background:#071b35; }
+  button { font:inherit; }
+  .scene { position:relative; min-height:100svh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 18px 56px; isolation:isolate; background:radial-gradient(ellipse at 50% 32%, #244f76 0%, #102e50 42%, #071b35 78%); }
+  .stars, .stars:before, .stars:after { position:absolute; inset:0; pointer-events:none; content:""; background-image:radial-gradient(2px 2px at 8% 18%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 18% 37%,#ffe6b8 50%,transparent 60%),radial-gradient(2px 2px at 28% 12%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 42% 25%,#fff 50%,transparent 60%),radial-gradient(2px 2px at 57% 11%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 72% 31%,#ffe6b8 50%,transparent 60%),radial-gradient(2px 2px at 84% 17%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 93% 39%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 65% 45%,#fff 50%,transparent 60%); opacity:.75; animation:twinkle 4s ease-in-out infinite alternate; }
+  .stars:before { transform:translateY(30px); opacity:.45; animation-delay:-2s; }
+  .moon { position:absolute; top:8%; right:13%; width:76px; height:76px; border-radius:50%; background:#fff0c9; box-shadow:0 0 28px #ffedc766,0 0 90px #c1dcff30; }
+  .moon:after { content:""; position:absolute; width:72px; height:72px; border-radius:50%; background:#173c60; top:-9px; left:17px; }
+  .intro { position:relative; z-index:2; text-align:center; width:min(100%,620px); margin-bottom:6px; }
+  .eyebrow { font-family:Arial,sans-serif; font-size:.72rem; letter-spacing:.25em; text-transform:uppercase; color:#b7d8e9; }
+  h1 { font-weight:normal; font-size:clamp(2rem,7vw,3.6rem); line-height:1.08; margin:15px 0 12px; text-shadow:0 3px 22px #0005; }
+  .intro p { color:#d3e4ef; font-size:clamp(1rem,3vw,1.15rem); line-height:1.6; margin:0 auto; max-width:440px; }
+  .sea { position:absolute; z-index:-1; bottom:0; left:-15%; width:130%; height:44%; background:linear-gradient(180deg,#2a6680 0%,#154365 22%,#092849 74%,#061b34 100%); border-radius:48% 52% 0 0 / 13% 17% 0 0; box-shadow:0 -12px 35px #6ec9e21a; }
+  .wave { position:absolute; z-index:0; bottom:7%; left:-20%; width:140%; height:120px; border-top:2px solid #a2e1e8a8; border-radius:50%; transform:rotate(-4deg); opacity:.38; animation:wave 8s ease-in-out infinite alternate; }
+  .wave.w2 { bottom:15%; left:-10%; opacity:.2; transform:rotate(4deg); animation-delay:-4s; }
+  .wave.w3 { bottom:2%; left:-5%; opacity:.24; animation-delay:-2s; }
+  .message-area { position:relative; z-index:3; min-height:245px; width:min(100%,540px); display:flex; align-items:center; justify-content:center; margin-top:12px; }
+  .bottle-button { border:0; padding:0; background:transparent; cursor:pointer; color:inherit; display:flex; flex-direction:column; align-items:center; gap:14px; transition:transform .3s ease; -webkit-tap-highlight-color:transparent; }
+  .bottle-button:hover { transform:translateY(-5px) rotate(-2deg); }
+  .bottle-button:focus-visible, .action:focus-visible { outline:3px solid #ffd3e7; outline-offset:6px; }
+  .bottle { width:115px; height:174px; filter:drop-shadow(0 14px 16px #00101e77); animation:bob 3s ease-in-out infinite; }
+  .bottle-hint { font-size:.98rem; color:#fcebd5; letter-spacing:.03em; animation:hint 2s ease-in-out infinite; }
+  .letter { display:none; width:100%; max-height:0; opacity:0; transform:translateY(20px) scale(.97); background:linear-gradient(135deg,#fff6df,#f1d9ad); color:var(--ink); border:1px solid #e5c58c; border-radius:5px; padding:clamp(22px,5vw,38px); box-shadow:0 20px 65px #00101e88, inset 0 0 30px #d4a65d25; position:relative; }
+  .letter:before { content:""; position:absolute; inset:9px; border:1px solid #b88c5a66; pointer-events:none; }
+  .letter.show { display:block; animation:unroll .9s cubic-bezier(.2,.8,.2,1) forwards; }
+  .letter-top { text-align:center; font-size:.72rem; letter-spacing:.2em; color:#98734e; text-transform:uppercase; margin-bottom:19px; }
+  .letter h2 { text-align:center; font-weight:normal; font-size:clamp(1.55rem,5vw,2rem); margin:0 0 20px; color:#744a36; }
+  .letter p { font-size:clamp(1rem,3.4vw,1.12rem); line-height:1.78; margin:0 0 15px; white-space:pre-line; }
+  .sign { text-align:right; margin-top:24px; color:#744a36; font-style:italic; line-height:1.7; }
+  .seal { width:48px; height:48px; display:grid; place-items:center; border-radius:50%; margin:20px auto 0; background:radial-gradient(circle at 35% 28%,#ffb0d2,#c93d78 75%); color:#fff1f7; font-size:1.45rem; box-shadow:0 3px 7px #6d294333; }
+  .action { position:relative; z-index:4; border:1px solid #f7d5e4aa; border-radius:999px; background:#fff0f21a; color:#fff4f6; padding:13px 22px; cursor:pointer; transition:background .2s, transform .2s; backdrop-filter:blur(6px); box-shadow:0 6px 22px #00102022; }
+  .action:hover { background:#fff0f234; transform:translateY(-2px); }
+  .hidden { display:none !important; }
+  .footer { position:relative; z-index:2; margin-top:19px; font-size:.78rem; color:#b8d2e1; letter-spacing:.06em; text-align:center; }
+  .heart { position:fixed; z-index:10; bottom:-40px; left:var(--x); font-size:var(--size); pointer-events:none; animation:floatHeart var(--dur) ease-out forwards; filter:drop-shadow(0 0 8px #ff80b866); }
+  .toast { position:relative; z-index:5; text-align:center; color:#ffe4ef; font-size:1rem; margin-top:16px; animation:fadein .7s ease both; }
+  @keyframes bob { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-12px) rotate(3deg)} }
+  @keyframes twinkle { from{opacity:.45} to{opacity:.95} }
+  @keyframes wave { from{transform:translateX(-2%) rotate(-4deg)} to{transform:translateX(3%) rotate(2deg)} }
+  @keyframes hint { 0%,100%{opacity:.7} 50%{opacity:1} }
+  @keyframes unroll { 0%{opacity:0;max-height:0;transform:translateY(24px) scale(.96)} 45%{opacity:1;max-height:1200px} 100%{opacity:1;max-height:1200px;transform:translateY(0) scale(1)} }
+  @keyframes floatHeart { 0%{transform:translateY(0) rotate(0);opacity:0} 12%{opacity:1} 100%{transform:translateY(-115vh) rotate(25deg);opacity:0} }
+  @keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  @media(max-width:420px) { .scene{padding:25px 14px 42px}.moon{width:58px;height:58px;right:10%;top:5%}.moon:after{width:58px;height:58px;left:13px;top:-7px}.message-area{min-height:220px}.bottle{width:98px;height:150px}.letter{padding:24px 21px}.letter p{line-height:1.68} }
+  @media(prefers-reduced-motion:reduce) { *,*:before,*:after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important} }
+</style>
+</head>
+<body>
+<main class="scene">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
+  <header class="intro" id="intro">
+    <div class="eyebrow">Утерянные записи. Капитан Каштан</div>
+    <h1>Послание из моря</h1>
+    <p>Тихой ночью волны принесли к берегу кое-что особенное.<br>Кажется, это послание именно для тебя…</p>
+  </header>
+  <div class="message-area">
+    <button class="bottle-button" id="bottleButton" aria-label="Открыть бутылку с посланием">
+      <svg class="bottle" viewBox="0 0 130 190" role="img" aria-label="Стеклянная бутылка с письмом">
+        <defs>
+          <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d4fff0" stop-opacity=".82"/><stop offset=".32" stop-color="#8ed9cf" stop-opacity=".48"/><stop offset=".7" stop-color="#397d83" stop-opacity=".8"/><stop offset="1" stop-color="#b6f5e1" stop-opacity=".55"/></linearGradient>
+          <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4d5"/><stop offset="1" stop-color="#cba977"/></linearGradient>
+        </defs>
+        <g transform="rotate(-12 65 100)">
+          <rect x="52" y="9" width="26" height="27" rx="4" fill="#a8754d" stroke="#e4b781" stroke-width="2"/>
+          <path d="M52 17h26M52 24h26M52 31h26" stroke="#70472f" stroke-width="2" opacity=".65"/>
+          <path d="M54 34 L76 34 L76 53 Q96 62 99 81 L103 145 Q104 165 85 169 L43 169 Q24 165 27 145 L31 81 Q34 62 54 53Z" fill="url(#glass)" stroke="#b4f2e4" stroke-width="2.2"/>
+          <path d="M39 83 Q42 70 54 65 L54 54 L62 54 L62 160 L45 160 Q34 159 35 145Z" fill="#e3fff3" opacity=".25"/>
+          <path d="M49 74 Q65 67 81 77 L82 135 Q66 146 48 134Z" fill="url(#paper)" stroke="#b48b5b" stroke-width="1.3"/>
+          <path d="M53 86h24M52 94h25M52 102h22M52 110h24M55 118h18" stroke="#997650" stroke-width="1.5" stroke-linecap="round" opacity=".75"/>
+          <path d="M34 91 Q31 120 34 146" fill="none" stroke="#f0fff9" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+          <circle cx="66" cy="143" r="8" fill="#d44c82" stroke="#f7a8c8" stroke-width="1.5"/><path d="M62 143l3 3 6-7" fill="none" stroke="#fff0f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="bottle-hint">Нажми на бутылку, чтобы подобрать послание</span>
+    </button>
+    <article class="letter" id="letter" aria-live="polite">
+      <div class="letter-top">✦ Личное послание ✦</div>
+      <h2>Моей любимой</h2>
+      <p>я просто хочу сказать, что ты мне очень дорога. иногда мне сложно подобрать нужные слова, но я абсолютно уверен в том, что ты много для меня значишь. я очень ценю тебя и всё, что между нами есть, и хочу, чтобы мы были счастливы вместе.</p>
+      <p>ты мне и вправду очень дорога. это важно, чтобы ты чувствовала себя любимой, нужной и счастливой рядом со мной. да, ты часто на меня ругаешься и злишься за то, что я делаю или не делаю. и мне правда жаль, если своими поступками заставляю тебя расстраиваться. понимаю, что не всегда поступаю правильно и что бывают моменты, когда мне стоило бы повести себя иначе. мне не всегда удаётся сразу понять, что именно не так, но это не значит, что мне всё равно.</p>
+      <p>я тебя очень сильно люблю 🩷💘 честное при-честное(</p>
+      <div class="sign">С любовью и с борта корабля,<br><strong>капитан Миша Каштан</strong></div>
+      <div class="seal" aria-hidden="true">♥</div>
+    </article>
+  </div>
+  <button class="action hidden" id="openLetter">Достать послание</button>
+  <button class="action hidden" id="heartButton">Отправить капитану сердечко 🩷</button>
+  <div class="toast hidden" id="toast" role="status">Послание доставлено. Капитан Миша Каштан шлёт тебе самый нежный привет 🩷</div>
+  <div class="footer" id="footer">Волны хранят самые тёплые слова ✧</div>
+  <div class="sea" aria-hidden="true"></div><div class="wave" aria-hidden="true"></div><div class="wave w2" aria-hidden="true"></div><div class="wave w3" aria-hidden="true"></div>
+</main>
+<script>
+  const bottleButton = document.getElementById('bottleButton');
+  const openLetter = document.getElementById('openLetter');
+  const letter = document.getElementById('letter');
+  const heartButton = document.getElementById('heartButton');
+  const toast = document.getElementById('toast');
+  const intro = document.getElementById('intro');
+  const footer = document.getElementById('footer');
+
+  bottleButton.addEventListener('click', () => {
+    bottleButton.classList.add('hidden');
+    intro.querySelector('h1').textContent = 'Послание найдено!';
+    intro.querySelector('p').textContent = 'Внутри спрятаны слова от человека, который очень тебя любит.';
+    openLetter.classList.remove('hidden');
+  });
+
+  openLetter.addEventListener('click', () => {
+    openLetter.classList.add('hidden');
+    letter.classList.add('show');
+    heartButton.classList.remove('hidden');
+    footer.textContent = 'Письмо написано от всего сердца ✧';
+    setTimeout(() => letter.scrollIntoView({behavior:'smooth', block:'center'}), 120);
+  });
+
+  function releaseHearts() {
+    const symbols = ['🩷','💗','💕','♥','💘'];
+    for (let i = 0; i < 28; i++) {
+      const heart = document.createElement('span');
+      heart.className = 'heart';
+      heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      heart.style.setProperty('--x', Math.random() * 100 + 'vw');
+      heart.style.setProperty('--size', (18 + Math.random() * 22) + 'px');
+      heart.style.setProperty('--dur', (3.4 + Math.random() * 3.5) + 's');
+      document.body.appendChild(heart);
+      heart.addEventListener('animationend', () => heart.remove());
+    }
+  }
+  heartButton.addEventListener('click', () => {
+    heartButton.classList.add('hidden');
+    toast.classList.remove('hidden');
+    releaseHearts();
+    footer.textContent = 'До встречи на следующем берегу, любимая 🩷';
+  });
+</script>
+</body>
+</html>
